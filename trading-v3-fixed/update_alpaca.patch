@@ -1,0 +1,23 @@
+--- functions/src/alpaca.ts
++++ functions/src/alpaca.ts
+@@ -136,3 +136,20 @@
+     }
+   });
++
++  app.get('/api/clock', async (req: Request, res: Response) => {
++    try {
++      const headers = getHeaders();
++      const response = await fetch(`${getBaseUrl()}/v2/clock`, { headers });
++      
++      if (!response.ok) {
++        const errorText = await response.text();
++        console.error('Alpaca /clock error:', errorText);
++        return res.status(response.status).json({ error: 'Alpaca API error' });
++      }
++      const clock = await response.json();
++      res.json(clock);
++    } catch (error: any) {
++      res.status(500).json({ error: 'Failed to fetch clock' });
++    }
++  });
+ }

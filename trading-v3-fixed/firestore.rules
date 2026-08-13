@@ -1,0 +1,29 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Account data - read only from frontend
+    match /account/{doc} {
+      allow read: if true;
+      allow write: if false; // only server writes
+    }
+    // Candles - read only from frontend
+    match /candles/{ticker}/bars/{bar} {
+      allow read: if true;
+      allow write: if false;
+    }
+    // Signals - read only from frontend
+    match /signals/{doc} {
+      allow read: if true;
+      allow write: if false;
+    }
+    // Trades - read only from frontend
+    match /trades/{doc} {
+      allow read: if true;
+      allow write: if false;
+    }
+    // Config - frontend can read and write (watchlist, strategy, validation)
+    match /config/{doc} {
+      allow read, write: if true;
+    }
+  }
+}
