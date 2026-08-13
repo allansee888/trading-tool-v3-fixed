@@ -7,8 +7,7 @@
     "node": ">=18.0.0"
   },
   "scripts": {
-    "predev": "node scripts/check-node.cjs",
-    "dev": "tsx server.ts",
+    "dev": "node scripts/dev.cjs",
     "build": "vite build && esbuild server.ts --bundle --platform=node --format=cjs --packages=external --sourcemap --outfile=dist/server.cjs",
     "start": "node dist/server.cjs",
     "preview": "vite preview",

@@ -1,0 +1,16 @@
+{
+  "name": "trading-tool-v3-fixed",
+  "private": true,
+  "description": "Repo root. The runnable app is in trading-v3-fixed/.",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "postinstall": "npm install --prefix trading-v3-fixed",
+    "dev": "npm run dev --prefix trading-v3-fixed",
+    "build": "npm run build --prefix trading-v3-fixed",
+    "start": "npm run start --prefix trading-v3-fixed",
+    "lint": "npm run lint --prefix trading-v3-fixed",
+    "clean": "npm run clean --prefix trading-v3-fixed"
+  }
+}
