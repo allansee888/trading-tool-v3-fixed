@@ -1,4 +1,4 @@
-import 'dotenv/config';
+import dotenv from 'dotenv';
 import express from 'express';
 import cors from 'cors';
 import * as admin from 'firebase-admin';
@@ -7,10 +7,18 @@ import { startAlpacaStream } from './functions/src/alpacaStream';
 import { createServer as createViteServer } from 'vite';
 import path from 'path';
 import fs from 'fs';
+import { fileURLToPath } from 'node:url';
+
+const rootDir = path.dirname(fileURLToPath(import.meta.url));
+
+dotenv.config({ path: path.join(rootDir, '.env.local') });
+dotenv.config({ path: path.join(rootDir, '.env') });
 
 let firebaseConfig: any = {};
 try {
-  firebaseConfig = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'firebase-applet-config.json'), 'utf-8'));
+  firebaseConfig = JSON.parse(
+    fs.readFileSync(path.join(rootDir, 'firebase-applet-config.json'), 'utf-8'),
+  );
 } catch (e) {
   console.error('Could not load firebase-applet-config.json', e);
 }
@@ -32,12 +40,14 @@ async function startServer() {
 
   if (process.env.NODE_ENV !== 'production') {
     const vite = await createViteServer({
+      root: rootDir,
+      configFile: path.join(rootDir, 'vite.config.ts'),
       server: { middlewareMode: true },
       appType: 'spa',
     });
     app.use(vite.middlewares);
   } else {
-    const distPath = path.join(process.cwd(), 'dist');
+    const distPath = path.join(rootDir, 'dist');
     app.use(express.static(distPath));
     app.get('*', (req, res) => {
       res.sendFile(path.join(distPath, 'index.html'));
@@ -49,4 +59,7 @@ async function startServer() {
   });
 }
 
-startServer();
+startServer().catch((err) => {
+  console.error('Failed to start dev server:', err);
+  process.exit(1);
+});

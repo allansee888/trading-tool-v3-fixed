@@ -10,8 +10,7 @@ View your app in AI Studio: https://ai.studio/apps/15a181e9-c694-42a0-a9ce-c3143
 
 ## Run Locally
 
-**Prerequisites:**  Node.js
-
+**Prerequisites:** Node.js 18 or later (Vite 6, tsx, and the Alpaca API routes require Node 18+). On Windows, use the official installer or [nvm-windows](https://github.com/coreybutler/nvm-windows).
 
 1. Install dependencies:
    `npm install`
